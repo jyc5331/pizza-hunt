@@ -4,6 +4,15 @@ const pizzaController = {
   // get all pizzas
   getAllPizza(req, res) {
     Pizza.find({})
+      //instructs the code to populate with comments information
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      //declutters the response
+      .select("-__v")
+      //sorts returned values alphabetically
+      .sort({ _id: -1 })
       .then((dbPizzaData) => res.json(dbPizzaData))
       .catch((err) => {
         console.log(err);
@@ -15,6 +24,12 @@ const pizzaController = {
   getPizzaById({ params }, res) {
     //the following line is a request the only accesses data that matches a specific ID as opposed to accessing the whole DB
     Pizza.findOne({ _id: params.id })
+      .populate({
+        path: "comments",
+        select: "-__v",
+      })
+      //declutters the response
+      .select("-__v")
       .then((dbPizzaData) => {
         // If no pizza is found, send 404
         if (!dbPizzaData) {

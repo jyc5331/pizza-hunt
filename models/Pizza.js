@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const dateFormat = require("../utils/dateFormat");
 
 const PizzaSchema = new Schema(
   {
@@ -8,9 +9,11 @@ const PizzaSchema = new Schema(
     createdBy: {
       type: String,
     },
+    //12-14 and the dateFormat file will get you prettier timestamps, you need to import dateFormat AND set getters to true in toJSON
     createdAt: {
       type: Date,
       default: Date.now,
+      get: (createdAtVal) => dateFormat(createdAtVal),
     },
     size: {
       type: String,
@@ -30,6 +33,7 @@ const PizzaSchema = new Schema(
     //this allows us to employee virtuals
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     //this tells mongoose to not automatically generate an id when we use virtuals
     id: false,
