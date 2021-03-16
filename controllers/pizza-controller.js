@@ -51,9 +51,11 @@ const pizzaController = {
   },
   // update pizza by id
   updatePizza({ params, body }, res) {
-    //new: true instructs mongoose to return the new version of your object
-    //without new: true, you would update the object, but still only access the 'old' version
-    Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
+    Pizza.findOneAndUpdate({ _id: params.id }, body, {
+      new: true,
+      //runValidators instructs mongoose to check all new information as opposed to only user created info
+      runValidators: true,
+    })
       .then((dbPizzaData) => {
         if (!dbPizzaData) {
           res.status(404).json({ message: "No pizza found with this id!" });

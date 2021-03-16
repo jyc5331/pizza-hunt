@@ -5,9 +5,13 @@ const PizzaSchema = new Schema(
   {
     pizzaName: {
       type: String,
+      required: true,
+      trim: true,
     },
     createdBy: {
       type: String,
+      required: true,
+      trim: true,
     },
     //12-14 and the dateFormat file will get you prettier timestamps, you need to import dateFormat AND set getters to true in toJSON
     createdAt: {
@@ -17,6 +21,9 @@ const PizzaSchema = new Schema(
     },
     size: {
       type: String,
+      required: true,
+      //enum option stands for enumerable, a popular term in web development that refers to a set of data that can be iterated over, here referencing our array
+      enum: ["Personal", "Small", "Medium", "Large", "Extra Large"],
       default: "Large",
     },
     //for the following, you could also do toppings: Array
